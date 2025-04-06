@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Status</title>
+    
+    <!-- ApexCharts Library -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- Moment.js for formatting time -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    
+    <style>
+        body {
+            background: #1B213B;
+            color: #777;
+            font-family: Montserrat, Arial, sans-serif;
+        }
+
+        .body-bg {
+            background: #F3F4FA !important;
+        }
+
+        h1, h2, h3, h4, h5, h6, strong {
+            font-weight: 600;
+        }
+
+        .box .apexcharts-xaxistooltip {
+            background: #1B213B;
+            color: #fff;
+        }
+
+        .content-area {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .box {
+            background-color: #262D47;
+            padding: 25px;
+            border-radius: 4px;
+        }
+
+        .columnbox {
+            padding-right: 15px;
+        }
+
+        .radialbox {
+            max-height: 333px;
+            margin-bottom: 60px;
+        }
+
+        .edit-on-codepen {
+            text-align: right;
+            width: 100%;
+            padding: 0 20px 40px;
+            position: relative;
+            top: -30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="content-area">
+            <div class="container-fluid">
+                <div class="main">
+                    <div class="row mt-4">
+                        <div class="col-md-5">
+                            <div class="box columnbox mt-4">
+                                <div id="columnchart"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="box mt-4">
+                                <div id="linechart"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="box radialbox mt-4">
+                                <div id="circlechart"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="box mt-4">
+                                <div class="mt-4">
+                                    <div id="progress1"></div>
+                                </div>
+                                <div class="mt-4">
+                                    <div id="progress2"></div>
+                                </div>
+                                <div class="mt-4">
+                                    <div id="progress3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="float-right edit-on-codepen"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.Apex = {
+            chart: {
+                foreColor: "#fff",
+                toolbar: { show: false }
+            },
+            colors: ["#FCCF31", "#17ead9", "#f02fc2"],
+            stroke: { width: 3 },
+            dataLabels: { enabled: false },
+            grid: { borderColor: "#40475D" },
+            xaxis: {
+                axisTicks: { color: "#333" },
+                axisBorder: { color: "#333" }
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                    gradientToColors: ["#F55555", "#6078ea", "#6094ea"]
+                }
+            },
+            tooltip: {
+                theme: "dark",
+                x: {
+                    formatter: function (val) {
+                        return moment(new Date(val)).format("HH:mm:ss");
+                    }
+                }
+            },
+            yaxis: {
+                decimalsInFloat: 2,
+                opposite: true,
+                labels: { offsetX: -10 }
+            }
+        };
+
+        function getRandom() {
+            return Math.floor(Math.random() * 100) + 10;
+        }
+
+        var optionsColumn = {
+            chart: { height: 350, type: "bar" },
+            series: [{ name: "Load Average", data: [getRandom(), getRandom(), getRandom(), getRandom()] }],
+            xaxis: { categories: ["stock", "bond", "real estate", "comodities"] }
+        };
+
+        var optionsLine = {
+            chart: { height: 350, type: "line" },
+            series: [
+                { name: "Gold", data: [getRandom(), getRandom(), getRandom(), getRandom()] },
+                { name: "Coke", data: [getRandom(), getRandom(), getRandom(), getRandom()] }
+            ],
+            xaxis: { categories: ["1", "2", "3", "4"] }
+        };
+
+        var optionsCircle = {
+            chart: { type: "radialBar", height: 250 },
+            series: [getRandom(), getRandom()],
+            labels: ["Gold", "Silver"]
+        };
+
+
+        var chartColumn = new ApexCharts(document.querySelector("#columnchart"), optionsColumn);
+        var chartLine = new ApexCharts(document.querySelector("#linechart"), optionsLine);
+        var chartCircle = new ApexCharts(document.querySelector("#circlechart"), optionsCircle);
+
+        chartColumn.render();
+        chartLine.render();
+        chartCircle.render();
+
+        window.setInterval(function () {
+            chartColumn.updateSeries([{ data: [getRandom(), getRandom(), getRandom(), getRandom()] }]);
+            chartLine.updateSeries([
+                { data: [getRandom(), getRandom(), getRandom(), getRandom()] },
+                { data: [getRandom(), getRandom(), getRandom(), getRandom()] }
+            ]);
+            chartCircle.updateSeries([getRandom(), getRandom()]);
+        }, 3000);
+    </script>
+</body>
+</html>

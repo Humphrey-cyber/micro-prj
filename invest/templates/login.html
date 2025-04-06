@@ -1,0 +1,98 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> LoginPage </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('/static/img/invest.jpg');
+            background-size: cover;
+            background-position: center;
+
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+            height: 600px;
+            align-content: center;
+            align-items: center;
+        }
+        .login-container h2 {
+            color: white;
+           
+            text-align: center;
+            position: relative;
+            top: -170px;
+    
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            align-content: center;
+            align-items: center;
+        }
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .login-btn {
+            margin-top: 10px;
+            width: 40%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgb(50, 48, 195);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-btn:hover {
+            background: aqua;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        {% if messages %}
+            {% for message in messages %}
+            <h2 style="color: firebrick;">{{message}}</h2>
+            {% endfor %}
+        {% endif %}
+        <form action="#"  method="POST">
+            {% csrf_token %}
+            <input type="text" class="input-field" placeholder="Enter your name" name="uname" required >
+            <input type="password" class="input-field" placeholder="Enter Password" name="pass" required>
+            <button type="submit" class="login-btn">Login</button>
+            <div class="text">
+              <h4><a href="{% url 'password_reset' %}">Forgot password?</a></h4>
+                <h3>Not a member? <a href="{% url 'register' %}">Register now</a></h3>
+              </div>
+        </form>
+    </div>
+</body>
+</html>

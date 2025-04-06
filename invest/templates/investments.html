@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Investments {% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.95);
+            background-color: #0A2540;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        /* Investment Sections */
+        h2 {
+            color: #F5F7FA;
+            font-size: 24px;
+            margin-bottom: 10px;
+            border-left: 4px solid #F5F7FA;
+            padding-left: 10px;
+        }
+
+        /* Card Styling */
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            width: 280px;
+            text-align: center;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.15);
+            background-color: #112A45;
+            color: #F5F7FA;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            margin-top: 10px;
+            color: #0A2540;
+            background-color: #F5F7FA;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #bfc9d9;
+        }
+
+        /* Carousel Styling */
+        .carousel {
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 10px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel button {
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            color: #F5F7FA;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .carousel button:hover {
+            color: #bfc9d9;
+        }
+
+        .prev {
+            left: -10px;
+        }
+
+        .next {
+            right: -10px;
+        }
+
+        /* Responsive Adjustments */
+        @media screen and (max-width: 1024px) {
+            .main-content {
+                margin-left: 200px;
+            }
+            .card {
+                width: 250px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+            .carousel-track {
+                gap: 15px;
+            }
+            .card {
+                width: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content" id="main-content">
+        {% for category in categories %}
+            <h2>{{ category.name }}</h2>
+            <div class="carousel">
+                <button class="prev">‹</button>
+                <div class="carousel-track">
+                    {% for investment in investments %}
+                        {% if investment.category == category %}
+                            <div class="card">
+                                <h3>{{ investment.name }}</h3>
+                                <img src="{{ investment.image.url }}" alt="{{ investment.name }}">
+                                <p>Amount: ${{ investment.amount }}</p>
+                                <p>{{ investment.description|truncatewords:8 }}</p>
+                                <a href="{% url 'investment_detail' investment.id %}" class="btn">Learn More</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <button class="next">›</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.querySelectorAll('.carousel').forEach((carousel) => {
+            const track = carousel.querySelector('.carousel-track');
+            const cards = carousel.querySelectorAll('.card');
+            const prevButton = carousel.querySelector('.prev');
+            const nextButton = carousel.querySelector('.next');
+            let index = 0;
+            let itemsPerSlide = getItemsPerSlide();
+
+            function moveSlide(direction) {
+                const totalSlides = Math.ceil(cards.length / itemsPerSlide);
+                index += direction;
+
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+
+                const moveAmount = -index * (100 / itemsPerSlide);
+                track.style.transform = `translateX(${moveAmount}%)`;
+            }
+
+            function getItemsPerSlide() {
+                if (window.innerWidth <= 768) return 1;
+                if (window.innerWidth <= 1024) return 2;
+                return 3;
+            }
+
+            prevButton.addEventListener('click', () => moveSlide(-1));
+            nextButton.addEventListener('click', () => moveSlide(1));
+
+            window.addEventListener('resize', () => {
+                itemsPerSlide = getItemsPerSlide();
+                index = 0;
+                track.style.transform = `translateX(0%)`;
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}
