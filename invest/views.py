@@ -30,6 +30,7 @@ def payout(request):
         try:
             data = json.loads(request.body)
             amount = float(data.get("amount", 0))
+            investment_id = int(data.get("investment_id"))
             if amount <= 0:
                 return JsonResponse({"error": "Invalid amount."}, status=400)
             
@@ -39,13 +40,19 @@ def payout(request):
             # Add the payout amount to the current balance
             account.balance += Decimal(str(amount))
             account.save()
-            
+
+            user_investment = UserInvestment.objects.create(
+                user = request.user,
+                investment_id = investment_id,
+                amount = Decimal(str(amount)),
+            )
+            user_investment.save()
+
             return JsonResponse({"new_balance": account.balance})
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     else:
         return JsonResponse({"error": "Invalid request method."}, status=405)
-
 def get_mpesa_access_token():
     url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
     response = requests.get(url, auth=HTTPBasicAuth(settings.MPESA_CONSUMER_KEY, settings.MPESA_CONSUMER_SECRET))
