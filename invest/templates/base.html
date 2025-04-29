@@ -1,247 +1,304 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %} Investment app {% endblock %}</title>
-  <!-- Font awesome  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- CSRF-token -->
-  <meta name="csrf-token" content="{{ csrf_token }}">
-
-  <style>
-    body {
-    margin: 0;
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    margin : 0;
+    list-style: none;
     padding: 0;
-    background-color: #0A2540;
-    color: white;
-    align-items: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
-
-
-/* ---------- HEADER ------------*/
-
-.header{
-    margin-left: 200px;
-    grid-area: header;
-    height: 70px;
+body{
+    background: #e1ecf2;
+}
+.wrapper{
+    margin: 0px;
+}
+.wrapper .top_navbar{
+    width: 100% ; 
+    height: 60px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px 0 30px;
-    box-shadow: 0 6px 7px -3px rgba(0,0,0,0.35);
-    background-color: #0A2540;
-    color: white;
-}
-
-.menu-icon{
-    display: none;
-}
-
-
-/* ---------- SIDEBAR ------------*/
-
-#sidebar{
-    grid-area: sidebar;
-    width: 200px;
-    height: 100%;
-    background-color:#0A2540 ;
     position: fixed;
-    left: 0;
-    top: 0;
-    overflow-y: auto;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    z-index: 1000;
-    transition: margin-left 0.3s ease-in-out;
-
+    top: 0px;
 }
-
-.main-container{
-    margin-left: 200px;
-    grid-area: main;
-    overflow-y: auto;
-    padding: 20px 20px;
-    color: rgba(255, 255, 255, 0.95);
-    background-color: #0A2540;
-    margin-left: 250px;
-    transition: margin-left 0.3s ease-in-out;
+.wrapper .top_navbar .hamburger{
+    width: 70px;
+    height: 100%;
+    background: #0A2540;
+    padding: 15px 17px;
+    cursor: pointer;   
 }
-
-.sidebar.hidden {
-    margin-left: -250px;
+.wrapper .top_navbar .hamburger div{
+    width: 35px;
+    height: 4px;
+    background: gold;
+    margin: 5px 0;
+    border-radius: 5px;
 }
-
-.main-content.full {
-    margin-left: 0;
-}
-
-.sidebar-title{
+.wrapper .top_navbar .top_menu{
+    width: calc(100% - 70px);
+    height: 100%;
+    background: #0A2540;
+    height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 30px 30px;
-    margin-bottom: 30px;
+    padding: 0 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-
-.sidebar-title > i{
-    display: none;
-}
-
-.sidebar-brand{
-    margin-top: 15px;
+.wrapper .top_navbar .top_menu .logo{
+    color: gold;
     font-size: 20px;
     font-weight: 700;
+    letter-spacing: 3px;
+}
+.wrapper .top_navbar .top_menu ul{
+    display: flex;
+}
+.wrapper .top_navbar .top_menu ul li a{
+    display: block;
+    margin: 0 10px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    border: 1px solid #0A2540;
+    text-align: center;
+    border-radius: 50%;
+    color: gold;
+}
+.wrapper .top_navbar .top_menu ul li a:hover{
+    background: #2e4ead;
+    color: #fff;
 }
 
-.sidebar-list{
-    padding: 0;
-    margin-top: 15px;
-    list-style-type: none;
+
+.wrapper .sidebar{
+    position: fixed;
+    top: 60px;
+    background: #0A2540;
+    width: 200px;
+    height: 100vh;
+    border-bottom-left-radius: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-.sidebar-list-item{
-    padding: 20px 20px 20px 20px;
-    font-size: 18px;
+.wrapper .sidebar ul li a{
+    display: block;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 1px;
+    color: gold;
+    font-size: 17px;
+    font-weight:700;
 }
 
-.sidebar-list-item:hover {
-    background-color: #F5F7FA ;
-    cursor: pointer;
-}
-
-.sidebar-responsive{
-    display: inline !important;
+.wrapper .sidebar ul li a:before{
+    content: "";
     position: absolute;
-    z-index: 12 !important;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #0A2540;
+}
+.wrapper .sidebar.close ul {
+    display: none;
+}
+.wrapper .sidebar ul li a span.icon{
+    margin-right: 10px;
+    display: inline-block;
+}
+.wrapper .sidebar ul li a span.title{
+    display: inline-block;
+}
+.wrapper .sidebar ul li a:hover,
+.wrapper .sidebar ul li a.active{
+    background: gold;
+    color: #0A2540;
+}
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before{
+    display: block;
 }
 
-/* -----------Media queries ------------- */
-/* media <> 992px */
-@media screen and (max-width: 992px)  {
-    .grid-container{
-        grid-template-columns: 1fr;
-        grid-template-rows: 0.2fr 3fr;
-        grid-template-areas: 
-        "header"
-        "main";
-    }
-    #sidebar{
+.wrapper .main-container{
+    margin-top: 60px;
+    margin-left: 200px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    background-color: #0A2540;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+}
+.wrapper .main-container .item{
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 22px;
+}
+.wrapper .sidebar.close {
+    width: 0;
+    overflow: hidden;
+}
+
+.wrapper .main-container.expand {
+    width: 100%;
+    margin-left: 0px;
+}
+@media (max-width: 768px) {
+    .wrapper .top_navbar .top_menu ul {
         display: none;
     }
-    .menu-icon{
-        display: inline;
-    }
-    .sidebar-title{
-        display: inline;
-    }
-}
 
-/* small <> 768px */
-@media screen and (max-width: 768px) {
-    .main-cards{
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin-bottom: 0;
-    }
-    .charts{
-        grid-template-columns: 1fr;
-    }
-}
-
-/* extra small <> 576px */
-@media screen and (max-width: 576){
-    .header-left{
+    .wrapper.active .top_navbar .top_menu ul {
         display: flex;
     }
+
+    .wrapper .main-container {
+        padding: 10px;
+        height: auto;
+    }
 }
-.sidebar-list-item{
-  color: #FFD700;
-}
-.name{
-  color: white;
-}
-  </style>
-</head>
-<body>
-  <div class="wrapper">     
-    
-    <!-- sidebar -->
-  
-     <aside id="sidebar">
-        <div class="sidebar-title">
-            <div class="sidebar-brand">
-            </div>
-            <i class="fa-solid fa-xmark" onclick="closeSidebar( )" >close</i>
-        </div>
-        <ul class="sidebar-list">
-            <li class="sidebar-list-item" >
-                <i class="fa-solid fa-qrcode" >
-                  <a href="{% url 'home' %}" class="name">Dashboard</a>
-                </i>  
-            </li>
-        </ul>
-        <ul class="sidebar-list">
-            <li class="sidebar-list-item" >
-                <i class="fa-solid fa-money-bill-trend-up">
-                  <a href="{% url 'investments' %}" class="name">Invest</a>
-                </i>
-            </li>
-        </ul>
-      <ul class="sidebar-list">
-        <li class="sidebar-list-item" >
-            <i class="fa-solid fa-address-book">
-              <a href="{% url 'logout' %}" class="name">logout</a>
-            </i> 
-        </li>
-    </ul>
-     </aside>
-
-  </div>
-    <!-- end sidebar -->
-    
-    <!-- Header -->
-    <Header class="header">
-      <div class="menu-icon" onclick="openSidebar()">
-          <!--<span class="material-icons-outlined">menu</span> -->
-          <i class="fa-solid fa-bars">menu</i>
-      </div>
-      <div class="header-left">
-        <!--  <span class="material-icons-outlined">search</span> -->
-      </div>
-   </Header>
-  <!-- end Header -->
-
-
-    <!-- main -->
-        <main>
-            {% block content %}
-  
-            {% endblock %}
-        </main>
-        
-    <script>
-    function toggleSidebar() {
-        let sidebar = document.getElementById("sidebar");
-        let mainContent = document.getElementById("main-content");
-
-        if (sidebar.classList.contains("hidden")) {
-            sidebar.classList.remove("hidden");
-            mainContent.classList.remove("full");
-        } else {
-            sidebar.classList.add("hidden");
-            mainContent.classList.add("full");
-        }
+@media (max-width: 992px) {
+    .wrapper .top_navbar .top_menu ul {
+        display: none;
     }
 
-    </script>
+    .wrapper.active .top_navbar .top_menu ul {
+        display: flex;
+    }
+
+    .wrapper .main-container {
+        padding: 10px;
+    }
+    .main-container {
+      margin-left: 0;
+      padding: 15px;
+    }
+
+    .charts {
+      grid-template-columns: 1fr;
+    }
+
+    .main-title h2 {
+      font-size: 1.8rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .main-title h2 {
+      font-size: 1.5rem;
+    }
+
+    .charts_card {
+      padding: 15px;
+    }
+
+    .chart-title {
+      font-size: 16px;
+    }
+
+    .card {
+      padding: 15px;
+    }
+
+    .investment-analysis h3 {
+      font-size: 18px;
+    }
+
+    .investment-analysis p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .main-title h2 {
+      font-size: 1.3rem;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+    }
+
+    .card h1,
+    .card h4 {
+      font-size: 1rem;
+    }
+
+    .chart-title {
+      font-size: 14px;
+    }
+
+    .investment-analysis h3 {
+      font-size: 16px;
+    }
+
+    .investment-analysis p {
+      font-size: 12px;
+    }
+  }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li><a href="{% url 'home' %}">
+                    <span class="icon">
+                        <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+                    </span>
+                    <span class="title">Dashboard</span>
+                </a></li>
+                <li><a href="{% url 'investments' %}">
+                    <span class="icon">
+                        <i class="fa-solid fa-money-bill-trend-up" aria-hidden="true"></i>
+                    </span>
+                    <span class="title">Invest</span>
+                </a></li>
+                <li><a href="{% url 'logout' %}">
+                    <span class="icon">
+                        <i class="fa-solid fa-address-book" aria-hidden="true"></i>
+                    </span>
+                    <span class="title">Logout</span>
+                </a></li>
+            </ul>
+        </div>
+        <div class="main-container">
+            {% block content %}
+
+            {% endblock %}
+        </div>
     
-     
 </body>
+<script>
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContainer = document.querySelector('.main-container');
+
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('close');
+        mainContainer.classList.toggle('expand');
+    });
+
+</script>
 </html>
-  
